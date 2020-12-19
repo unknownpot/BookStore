@@ -11,11 +11,11 @@ class booksSpider(scrapy.Spider):
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response, **kwargs): 
+    def parse(self, response): 
         
         for b in response.css("article.product_pod"):
             link = b.css("div.image_container a img::attr(src)").get()
-            title = b.css("h3 a::text").get()
+            title = b.css("h3 a::attr(title)").get()
             price = b.css("div.product_price p.price_color::text").get()
 
             yield {
